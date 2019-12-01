@@ -1,0 +1,128 @@
+package com.example.sqliteprueba01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import static java.security.AccessController.getContext;
+
+public class MainActivity extends AppCompatActivity
+{
+    EditText edtID, edtNombre, edtApellidos;
+    Button btnBuscar, btnInsertar, btnActualizar, btnBorrar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Asociamos los id's
+        edtID = findViewById(R.id.idEdtID);
+        edtNombre = findViewById(R.id.idEdtNombre);
+        edtApellidos = findViewById(R.id.idEdtApellidos);
+
+        btnBuscar = findViewById(R.id.idBtnBuscar);
+        btnInsertar = findViewById(R.id.idBtnInsertar);
+        btnActualizar = findViewById(R.id.idBtnActualizar);
+        btnBorrar = findViewById(R.id.idBtnBorrar);
+
+        //Para acceder a tu base de datos, crea una instancia de tu subclase de SQLiteOpenHelper
+        final BBDD_Helper helper = new BBDD_Helper(this);
+
+        //Btn INSERTAR
+        btnInsertar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // Gets the data repository in write mode
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                // Crea un nuevo mapa de valores para los campos de la base de datos ( inserta un registro de datos )
+                ContentValues values = new ContentValues();
+                values.put(Estructura_BD.NOMBRE_COLUMNA1, edtID.getText().toString());
+                values.put(Estructura_BD.NOMBRE_COLUMNA2, edtNombre.getText().toString());
+                values.put(Estructura_BD.NOMBRE_COLUMNA3, edtApellidos.getText().toString());
+
+                // Inserta una nueva fila, devolviéndonos el valor de clave primaria del nuevo registro
+                long newRowId = db.insert(Estructura_BD.TABLE_NAME, null, values);
+
+                Toast.makeText(getApplicationContext(), "Se guardó el registro con clave " + newRowId, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //Btn BORRAR
+        btnBorrar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
+
+        //Btn BUSCAR
+        btnBuscar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Método que permite hacer nuestra base de datos de lectura
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                // Está definiendo una proyección que especifíca qué columna de nuestra bd
+                // va a usar en nuestra consulta
+                String[] projection = {
+                        //Estructura_BD._ID, Omitimos que nos de el ID
+                        Estructura_BD.NOMBRE_COLUMNA2, //Nos devuelve el nombre
+                        Estructura_BD.NOMBRE_COLUMNA3  //Nos devuelve los apellidos
+                };
+
+                // Filtrado de registros
+                String selection = Estructura_BD.NOMBRE_COLUMNA1 + " = ?"; //ID será el campo del criterio
+                String[] selectionArgs = { edtID.getText().toString() }; //Nos pide de dónde viene el criterio o criterios
+
+                // Si nuestras consultas devolvieran 10 , 20 registros ( un decir ) sí sería bueno ordenarlos
+                // En nuestro caso lo dejamos COMENTADO
+                /*String sortOrder =
+                        Estructura_BD.COLUMN_NAME_SUBTITLE + " DESC";*/
+
+                // Creación del Objeto de tipo Cursor
+                Cursor cursor = db.query(
+                        Estructura_BD.TABLE_NAME,   // Tabla de la consulta
+                        projection,             // Este parámetro corresponde al array de las columnas que debe devolver
+                        selection,              // Este parámetro corresponde a las columnas que tienen el criterio
+                        selectionArgs,          // Hace referencia de dónde viene el criterio
+                        null,                   // hace referencia a agrupar las consultas por denominación
+                        null,                   // filtrar filas por grupos
+                        null
+                );
+
+                //Movemos el cursor al primer registro de nuestro resulset
+                cursor.moveToFirst();
+
+                //Ahora leemos la información requerida
+                edtNombre.setText(cursor.getString(0));
+                edtApellidos.setText(cursor.getString(1));
+            }
+        });
+
+        //Btn ACTUALIZAR
+        btnActualizar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
+    }
+}

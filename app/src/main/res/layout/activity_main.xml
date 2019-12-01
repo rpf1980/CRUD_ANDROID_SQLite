@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/idEdtID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="52dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/idEdtNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/idEdtID"
+        app:layout_constraintStart_toStartOf="@+id/idEdtID"
+        app:layout_constraintTop_toBottomOf="@+id/idEdtID" />
+
+    <EditText
+        android:id="@+id/idEdtApellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/idEdtNombre"
+        app:layout_constraintStart_toStartOf="@+id/idEdtNombre"
+        app:layout_constraintTop_toBottomOf="@+id/idEdtNombre" />
+
+    <Button
+        android:id="@+id/idBtnBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:text="BUSCAR"
+        app:layout_constraintStart_toEndOf="@+id/idEdtID"
+        app:layout_constraintTop_toTopOf="@+id/idEdtID" />
+
+    <Button
+        android:id="@+id/idBtnInsertar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:text="INSERTAR"
+        app:layout_constraintStart_toEndOf="@+id/idBtnBuscar"
+        app:layout_constraintTop_toTopOf="@+id/idBtnBuscar" />
+
+    <Button
+        android:id="@+id/idBtnActualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:text="ACTUALIZAR"
+        app:layout_constraintEnd_toEndOf="@+id/idBtnBuscar"
+        app:layout_constraintStart_toStartOf="@+id/idBtnBuscar"
+        app:layout_constraintTop_toBottomOf="@+id/idBtnBuscar" />
+
+    <Button
+        android:id="@+id/idBtnBorrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BORRAR"
+        app:layout_constraintBottom_toBottomOf="@+id/idBtnActualizar"
+        app:layout_constraintEnd_toEndOf="@+id/idBtnInsertar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
